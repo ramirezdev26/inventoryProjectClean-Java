@@ -44,4 +44,8 @@ public class ProductEntity extends Entity<ProductId> {
     public void setInventoryStock(InventoryStock inventoryStock) {
         this.inventoryStock = inventoryStock;
     }
+
+    public void addStock(InventoryStock inventoryStock){
+        this.inventoryStock = new InventoryStock(this.inventoryStock.value() + inventoryStock.value());
+    }
 }

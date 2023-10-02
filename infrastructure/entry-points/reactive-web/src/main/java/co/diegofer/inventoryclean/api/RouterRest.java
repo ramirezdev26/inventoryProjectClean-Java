@@ -56,14 +56,9 @@ public class RouterRest {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> patchAddProductStock(AddStockToProductUseCase addStockToProductUseCase) {
-        return route(PATCH("/products/id/{id}/stock/{stock}/add"),
-                request -> addStockToProductUseCase.apply(request.pathVariable("id"), Integer.valueOf(request.pathVariable("stock")))
-                        .flatMap(item -> ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue(item))
-                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
-        );
+    public RouterFunction<ServerResponse> patchAddProductStock(Handler handler) {
+        return route(PATCH("/api/v1/product/purchase").and(accept(MediaType.APPLICATION_JSON)),
+                handler::listenPATCHAddStock);
     }
 
     @Bean

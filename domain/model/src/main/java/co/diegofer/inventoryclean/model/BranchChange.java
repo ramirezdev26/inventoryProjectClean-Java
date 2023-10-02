@@ -1,10 +1,7 @@
 package co.diegofer.inventoryclean.model;
 
 import co.diegofer.inventoryclean.model.commands.RegisterFinalCustomerSaleCommand.ProductSale;
-import co.diegofer.inventoryclean.model.events.BranchCreated;
-import co.diegofer.inventoryclean.model.events.FinalCustomerSaleRegistered;
-import co.diegofer.inventoryclean.model.events.ProductAdded;
-import co.diegofer.inventoryclean.model.events.UserAdded;
+import co.diegofer.inventoryclean.model.events.*;
 import co.diegofer.inventoryclean.model.generic.EventChange;
 import co.diegofer.inventoryclean.model.product.Product;
 import co.diegofer.inventoryclean.model.values.branch.Location;
@@ -48,6 +45,14 @@ public class BranchChange extends EventChange {
                     new Password(event.getPassword()),
                     new Role(event.getRole())
             ));
+        });
+
+        apply((StockToProductAdded event) -> {
+            for (ProductEntity product: branchAggregate.products) {
+                if (product.identity().value().equals(event.getProductId())){
+                    product.addStock(new InventoryStock(event.getQuantityToAdd()));
+                }
+            }
         });
 
         apply((FinalCustomerSaleRegistered event) -> {

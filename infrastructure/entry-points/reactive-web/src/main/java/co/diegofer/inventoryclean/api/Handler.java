@@ -1,15 +1,13 @@
 package co.diegofer.inventoryclean.api;
 
-import co.diegofer.inventoryclean.model.commands.AddProductCommand;
-import co.diegofer.inventoryclean.model.commands.AddStockToProductCommand;
-import co.diegofer.inventoryclean.model.commands.RegisterBranchCommand;
+import co.diegofer.inventoryclean.model.commands.*;
 import co.diegofer.inventoryclean.model.commands.RegisterFinalCustomerSaleCommand.RegisterFinalCustomerSaleCommand;
-import co.diegofer.inventoryclean.model.commands.RegisterUserCommand;
 import co.diegofer.inventoryclean.model.generic.DomainEvent;
 import co.diegofer.inventoryclean.usecase.addstocktoproduct.AddStockToProductUseCase;
 import co.diegofer.inventoryclean.usecase.registerbranch.RegisterBranchUseCase;
 import co.diegofer.inventoryclean.usecase.registerfinalcustomersale.RegisterFinalCustomerSaleUseCase;
 import co.diegofer.inventoryclean.usecase.registerproduct.RegisterProductUseCase;
+import co.diegofer.inventoryclean.usecase.registerresellercustomersale.RegisterResellerCustomerSaleUseCase;
 import co.diegofer.inventoryclean.usecase.registeruser.RegisterUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -30,6 +28,7 @@ public class Handler {
     private final RegisterUserUseCase registerUserUseCase;
     private final AddStockToProductUseCase addStockToProductUseCase;
     private final RegisterFinalCustomerSaleUseCase registerFinalCustomerSaleUseCase;
+    private final RegisterResellerCustomerSaleUseCase registerResellerCustomerSaleUseCaseCommand;
 
     public Mono<ServerResponse> listenPOSTRegisterBranchUseCase(ServerRequest serverRequest) {
 
@@ -81,6 +80,18 @@ public class Handler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromPublisher(registerFinalCustomerSaleUseCase
                                 .apply(serverRequest.bodyToMono(RegisterFinalCustomerSaleCommand.class)),
+                        DomainEvent.class)).onErrorResume(e -> Mono.just("Error " + e.getMessage())
+                        .flatMap(s -> ServerResponse.ok()
+                                .contentType(MediaType.TEXT_PLAIN)
+                                .bodyValue(s)));
+    }
+
+    public Mono<ServerResponse> listenPATCHResellerFinalCustomerSale(ServerRequest serverRequest) {
+
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(registerResellerCustomerSaleUseCaseCommand
+                                .apply(serverRequest.bodyToMono(RegisterResellerCustomerSaleCommand.class)),
                         DomainEvent.class)).onErrorResume(e -> Mono.just("Error " + e.getMessage())
                         .flatMap(s -> ServerResponse.ok()
                                 .contentType(MediaType.TEXT_PLAIN)

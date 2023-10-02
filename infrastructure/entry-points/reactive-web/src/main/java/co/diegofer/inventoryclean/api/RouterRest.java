@@ -67,4 +67,10 @@ public class RouterRest {
                 handler::listenPATCHRegisterFinalCustomerSale);
     }
 
+    @Bean
+    public RouterFunction<ServerResponse> patchRegisterResellerCustomerSale(Handler handler){
+        return route(PATCH("/api/v1/product/reseller-sale").and(accept(MediaType.APPLICATION_JSON)),
+                handler::listenPATCHResellerFinalCustomerSale);
+    }
+
 }

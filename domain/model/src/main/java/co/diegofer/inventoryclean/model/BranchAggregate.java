@@ -49,6 +49,10 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
         appendChange(new FinalCustomerSaleRegistered(products, total));
     }
 
+    public void registerResellerCustomerSale(List<ProductSale> products, int total){
+        appendChange(new ResellerCustomerSaleRegistered(products, total));
+    }
+
     public void addStockToProduct(ProductId productId, InventoryStock inventoryStock){
         appendChange(new StockToProductAdded(productId.value(), inventoryStock.value())).apply();
     }

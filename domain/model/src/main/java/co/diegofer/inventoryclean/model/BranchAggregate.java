@@ -46,11 +46,11 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
     }
 
     public void registerFinalCustomerSale(List<ProductSale> products, int total){
-        appendChange(new FinalCustomerSaleRegistered(products, total));
+        appendChange(new FinalCustomerSaleRegistered(products, total)).apply();
     }
 
     public void registerResellerCustomerSale(List<ProductSale> products, int total){
-        appendChange(new ResellerCustomerSaleRegistered(products, total));
+        appendChange(new ResellerCustomerSaleRegistered(products, total)).apply();
     }
 
     public void addStockToProduct(ProductId productId, InventoryStock inventoryStock){
@@ -62,7 +62,7 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
         for (ProductSale productRequested: products) {
             for (ProductEntity productInBranch: this.products) {
                 if (Objects.equals(productRequested.getId(), productInBranch.identity().value())){
-                    total += productInBranch.price().value();
+                    total += productInBranch.price().value() * productRequested.getQuantity();
                 }
             }
         }

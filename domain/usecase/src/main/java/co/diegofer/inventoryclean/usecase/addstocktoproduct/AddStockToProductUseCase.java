@@ -3,14 +3,13 @@ package co.diegofer.inventoryclean.usecase.addstocktoproduct;
 import co.diegofer.inventoryclean.model.BranchAggregate;
 import co.diegofer.inventoryclean.model.commands.AddStockToProductCommand;
 import co.diegofer.inventoryclean.model.generic.DomainEvent;
-import co.diegofer.inventoryclean.model.product.Product;
 import co.diegofer.inventoryclean.model.product.gateways.ProductRepository;
 import co.diegofer.inventoryclean.model.values.branch.BranchId;
 import co.diegofer.inventoryclean.model.values.product.InventoryStock;
 import co.diegofer.inventoryclean.model.values.product.ProductId;
 import co.diegofer.inventoryclean.usecase.generics.DomainEventRepository;
+import co.diegofer.inventoryclean.usecase.generics.EventBus;
 import co.diegofer.inventoryclean.usecase.generics.UserCaseForCommand;
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -20,10 +19,13 @@ public class AddStockToProductUseCase extends UserCaseForCommand<AddStockToProdu
     private final ProductRepository productRepository;
 
     private final DomainEventRepository repository;
+    private final EventBus eventBus;
 
-    public AddStockToProductUseCase(ProductRepository productRepository, DomainEventRepository repository) {
+
+    public AddStockToProductUseCase(ProductRepository productRepository, DomainEventRepository repository, EventBus eventBus) {
         this.productRepository = productRepository;
         this.repository = repository;
+        this.eventBus = eventBus;
     }
 
 
@@ -45,7 +47,7 @@ public class AddStockToProductUseCase extends UserCaseForCommand<AddStockToProdu
                                 }
                         ))
                 .map(event -> {
-                    repository.saveEvent(event);
+                    eventBus.publish(event);
                     return event;
                 }).flatMap(repository::saveEvent)
         );

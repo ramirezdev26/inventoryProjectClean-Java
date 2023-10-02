@@ -13,11 +13,11 @@ public class UserAdded extends DomainEvent {
     private String role;
 
     public UserAdded() {
-        super("co.diegofer.inventoryclean.model.events.UserCreated");
+        super("co.diegofer.inventoryclean.model.events.UserAdded");
     }
 
     public UserAdded(String userId, String name, String lastName, String email, String password, String role) {
-        super("co.diegofer.inventoryclean.model.events.UserCreated");
+        super("co.diegofer.inventoryclean.model.events.UserAdded");
         this.userId = userId;
         this.name = name;
         this.lastName = lastName;

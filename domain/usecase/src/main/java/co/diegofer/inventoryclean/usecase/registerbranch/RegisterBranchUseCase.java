@@ -6,7 +6,8 @@ import co.diegofer.inventoryclean.model.branch.gateways.BranchRepository;
 import co.diegofer.inventoryclean.model.commands.RegisterBranchCommand;
 import co.diegofer.inventoryclean.model.generic.DomainEvent;
 import co.diegofer.inventoryclean.model.values.branch.BranchId;
-import co.diegofer.inventoryclean.model.values.branch.Location;
+import co.diegofer.inventoryclean.model.values.branch.City;
+import co.diegofer.inventoryclean.model.values.branch.Country;
 import co.diegofer.inventoryclean.model.values.common.Name;
 import co.diegofer.inventoryclean.usecase.generics.DomainEventRepository;
 import co.diegofer.inventoryclean.usecase.generics.EventBus;
@@ -30,13 +31,15 @@ public class RegisterBranchUseCase extends UserCaseForCommand<RegisterBranchComm
     @Override
     public Flux<DomainEvent> apply(Mono<RegisterBranchCommand> registerBranchCommandMono) {
 
-        Mono<Branch> branchSaved =  registerBranchCommandMono.flatMap(command -> branchRepository.saveABranch(new Branch(command.getName(), command.getLocation())));
+        Mono<Branch> branchSaved =  registerBranchCommandMono.flatMap(command -> branchRepository.saveABranch(new Branch(command.getName(), command.getCountry(), command.getCity())));
 
         return branchSaved.flatMapIterable(branch -> {
+            System.out.println(branch.getName());
             BranchAggregate branchAggregate = new BranchAggregate(
                     BranchId.of(branch.getId()),
                     new Name(branch.getName()),
-                    new Location(branch.getLocation())
+                    new Country(branch.getCountry()),
+                    new City(branch.getCity())
             );
             return branchAggregate.getUncommittedChanges();
         }).map(event -> {

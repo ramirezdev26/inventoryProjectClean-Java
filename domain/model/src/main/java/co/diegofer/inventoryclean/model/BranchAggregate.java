@@ -5,7 +5,8 @@ import co.diegofer.inventoryclean.model.events.*;
 import co.diegofer.inventoryclean.model.generic.AggregateRoot;
 import co.diegofer.inventoryclean.model.generic.DomainEvent;
 import co.diegofer.inventoryclean.model.values.branch.BranchId;
-import co.diegofer.inventoryclean.model.values.branch.Location;
+import co.diegofer.inventoryclean.model.values.branch.City;
+import co.diegofer.inventoryclean.model.values.branch.Country;
 import co.diegofer.inventoryclean.model.values.common.Name;
 import co.diegofer.inventoryclean.model.values.product.*;
 import co.diegofer.inventoryclean.model.values.user.*;
@@ -16,14 +17,15 @@ import java.util.Objects;
 public class BranchAggregate extends AggregateRoot<BranchId> {
 
     protected Name name;
-    protected Location location;
+    protected Country country;
+    protected City city;
     protected List<ProductEntity> products;
     protected List<UserEntity> users;
 
-    public BranchAggregate(BranchId id, Name name, Location location) {
+    public BranchAggregate(BranchId id, Name name, Country country, City city) {
         super(id);
         subscribe(new BranchChange(this));
-        appendChange(new BranchCreated(name.value(), location.value())).apply();
+        appendChange(new BranchCreated(name.value(), country.value(), city.value())).apply();
     }
 
     private BranchAggregate(BranchId id) {

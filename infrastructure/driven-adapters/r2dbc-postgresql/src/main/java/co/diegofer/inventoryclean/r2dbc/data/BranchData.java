@@ -16,6 +16,7 @@ public class BranchData {
     @Id
     private String id;
     private String name;
-    private String location;
+    private String country;
+    private String city;
 
 }

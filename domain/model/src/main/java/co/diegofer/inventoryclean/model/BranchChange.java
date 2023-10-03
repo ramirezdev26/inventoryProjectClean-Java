@@ -3,8 +3,8 @@ package co.diegofer.inventoryclean.model;
 import co.diegofer.inventoryclean.model.commands.RegisterFinalCustomerSaleCommand.ProductSale;
 import co.diegofer.inventoryclean.model.events.*;
 import co.diegofer.inventoryclean.model.generic.EventChange;
-import co.diegofer.inventoryclean.model.product.Product;
-import co.diegofer.inventoryclean.model.values.branch.Location;
+import co.diegofer.inventoryclean.model.values.branch.City;
+import co.diegofer.inventoryclean.model.values.branch.Country;
 import co.diegofer.inventoryclean.model.values.common.Name;
 import co.diegofer.inventoryclean.model.values.product.*;
 import co.diegofer.inventoryclean.model.values.user.Email;
@@ -21,7 +21,8 @@ public class BranchChange extends EventChange {
 
         apply((BranchCreated event) -> {
             branchAggregate.name = new Name(event.getName());
-            branchAggregate.location = new Location(event.getLocation());
+            branchAggregate.country = new Country(event.getCountry());
+            branchAggregate.city = new City(event.getCity());
             branchAggregate.products = new ArrayList<>();
             branchAggregate.users = new ArrayList<>();
         });

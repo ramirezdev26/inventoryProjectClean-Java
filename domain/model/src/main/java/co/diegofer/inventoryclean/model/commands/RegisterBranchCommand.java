@@ -5,7 +5,8 @@ import co.diegofer.inventoryclean.model.generic.Command;
 public class RegisterBranchCommand extends Command {
 
     private String name;
-    private String location;
+    private String country;
+    private String city;
 
     public RegisterBranchCommand() {
     }
@@ -19,11 +20,19 @@ public class RegisterBranchCommand extends Command {
         this.name = name;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCountry() {
+        return country;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

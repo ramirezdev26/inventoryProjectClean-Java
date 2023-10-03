@@ -12,10 +12,12 @@ public class Branch {
 
     private String id;
     private String name;
-    private String location;
+    private String country;
+    private String city;
 
-    public Branch(String name, String location) {
+    public Branch(String name, String country, String city) {
         this.name = name;
-        this.location = location;
+        this.country = country;
+        this.city = city;
     }
 }

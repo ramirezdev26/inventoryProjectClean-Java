@@ -42,61 +42,54 @@ public class Handler {
 
     public Mono<ServerResponse> listenPOSTAddProduct(ServerRequest serverRequest) {
 
-        return ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromPublisher(registerProductUseCase
-                                .apply(serverRequest.bodyToMono(AddProductCommand.class)),
-                        DomainEvent.class)).onErrorResume(throwable -> ServerResponse.badRequest().bodyValue(throwable.getMessage()));
+        return registerProductUseCase.apply(serverRequest.bodyToMono(AddProductCommand.class))
+                .flatMap(domainEvent -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(domainEvent))).next()
+                .onErrorResume(Exception.class, e -> ServerResponse.badRequest().bodyValue(e.getMessage()));
+
     }
 
     public Mono<ServerResponse> listenPOSTRegisterUser(ServerRequest serverRequest) {
 
-        return ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromPublisher(registerUserUseCase
-                                .apply(serverRequest.bodyToMono(RegisterUserCommand.class)),
-                        DomainEvent.class)).onErrorResume(e -> Mono.just("Error " + e.getMessage())
-                        .flatMap(s -> ServerResponse.ok()
-                                .contentType(MediaType.TEXT_PLAIN)
-                                .bodyValue(s)));
+        return registerUserUseCase.apply(serverRequest.bodyToMono(RegisterUserCommand.class))
+                .flatMap(domainEvent -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(domainEvent))).next()
+                .onErrorResume(Exception.class, e -> ServerResponse.badRequest().bodyValue(e.getMessage()));
+
     }
 
     public Mono<ServerResponse> listenPATCHAddStock(ServerRequest serverRequest) {
 
-        return ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromPublisher(addStockToProductUseCase
-                                .apply(serverRequest.bodyToMono(AddStockToProductCommand.class)),
-                        DomainEvent.class)).onErrorResume(e -> Mono.just("Error " + e.getMessage())
-                        .flatMap(s -> ServerResponse.ok()
-                                .contentType(MediaType.TEXT_PLAIN)
-                                .bodyValue(s)));
+        return addStockToProductUseCase.apply(serverRequest.bodyToMono(AddStockToProductCommand.class))
+                .flatMap(domainEvent -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(domainEvent))).next()
+                .onErrorResume(Exception.class, e -> ServerResponse.badRequest().bodyValue(e.getMessage()));
+
     }
 
 
 
     public Mono<ServerResponse> listenPATCHRegisterFinalCustomerSale(ServerRequest serverRequest) {
 
-        return ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromPublisher(registerFinalCustomerSaleUseCase
-                                .apply(serverRequest.bodyToMono(RegisterFinalCustomerSaleCommand.class)),
-                        DomainEvent.class)).onErrorResume(e -> Mono.just("Error " + e.getMessage())
-                        .flatMap(s -> ServerResponse.ok()
-                                .contentType(MediaType.TEXT_PLAIN)
-                                .bodyValue(s)));
+        return registerFinalCustomerSaleUseCase.apply(serverRequest.bodyToMono(RegisterFinalCustomerSaleCommand.class))
+                .flatMap(domainEvent -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(domainEvent))).next()
+                .onErrorResume(Exception.class, e -> ServerResponse.badRequest().bodyValue(e.getMessage()));
+
     }
 
     public Mono<ServerResponse> listenPATCHResellerFinalCustomerSale(ServerRequest serverRequest) {
 
-        return ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromPublisher(registerResellerCustomerSaleUseCaseCommand
-                                .apply(serverRequest.bodyToMono(RegisterResellerCustomerSaleCommand.class)),
-                        DomainEvent.class)).onErrorResume(e -> Mono.just("Error " + e.getMessage())
-                        .flatMap(s -> ServerResponse.ok()
-                                .contentType(MediaType.TEXT_PLAIN)
-                                .bodyValue(s)));
+        return registerResellerCustomerSaleUseCaseCommand.apply(serverRequest.bodyToMono(RegisterResellerCustomerSaleCommand.class))
+                .flatMap(domainEvent -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(domainEvent))).next()
+                .onErrorResume(Exception.class, e -> ServerResponse.badRequest().bodyValue(e.getMessage()));
+
     }
 
 

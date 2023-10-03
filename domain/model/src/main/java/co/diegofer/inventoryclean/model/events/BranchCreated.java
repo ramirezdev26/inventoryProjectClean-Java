@@ -5,23 +5,28 @@ import co.diegofer.inventoryclean.model.generic.DomainEvent;
 public class BranchCreated extends DomainEvent {
 
     private String name;
-    private String location;
+    private String country;
+    private String city;
     public BranchCreated() {
         super("co.diegofer.inventoryclean.model.events.BranchCreated");
     }
 
-    public BranchCreated(String name,String location){
+    public BranchCreated(String name,String country, String city){
         super("co.diegofer.inventoryclean.model.events.BranchCreated");
         this.name = name;
-        this.location = location;
+        this.country = country;
+        this.city = city;
     }
 
     public String getName(){
         return name;
     }
 
-    public String getLocation(){
-        return location;
+    public String getCountry() {
+        return country;
     }
 
+    public String getCity() {
+        return city;
+    }
 }

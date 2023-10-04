@@ -9,18 +9,22 @@ pluginManagement {
 rootProject.name = 'inventoryProject'
 
 include ':app-service'
+include ':app-query'
 include ':model'
 include ':usecase'
 project(':app-service').projectDir = file('./applications/app-service')
+project(':app-query').projectDir = file('./applications/app-query')
 project(':model').projectDir = file('./domain/model')
 project(':usecase').projectDir = file('./domain/usecase')
 include ':r2dbc-postgresql'
 project(':r2dbc-postgresql').projectDir = file('./infrastructure/driven-adapters/r2dbc-postgresql')
 include ':reactive-web'
-project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')
+project(':reactive-web').projectDir = file('./infrastructure/entry-points/command/reactive-web')
 include ':mongo-repository'
 project(':mongo-repository').projectDir = file('./infrastructure/driven-adapters/mongo-repository')
 include ':serializer'
 project(':serializer').projectDir = file('./infrastructure/helpers/serializer')
 include ':async-event-bus'
 project(':async-event-bus').projectDir = file('./infrastructure/driven-adapters/async-event-bus')
+include ':mq-listener-query'
+project(':mq-listener-query').projectDir = file('./infrastructure/entry-points/query/mq-listener-query')

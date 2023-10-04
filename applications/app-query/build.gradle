@@ -2,8 +2,8 @@ apply plugin: 'org.springframework.boot'
 
 dependencies {
     implementation project( ':mq-listener-query')
-	implementation project( ':async-event-bus')
-	implementation project( ':mongo-repository')
+    implementation project( ':async-event-bus')
+    implementation project( ':mongo-repository')
     implementation project( ':reactive-web')
     implementation project( ':r2dbc-postgresql')
     implementation project( ':serializer')

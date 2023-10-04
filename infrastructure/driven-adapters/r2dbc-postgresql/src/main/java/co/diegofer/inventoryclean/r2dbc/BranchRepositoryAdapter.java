@@ -23,17 +23,15 @@ public class BranchRepositoryAdapter implements BranchRepository {
 
     @Override
     public Mono<Branch> saveABranch(Branch branch) {
-        String newId = UUID.randomUUID().toString();
         BranchData branchData = mapper.map(branch, BranchData.class);
         dbClient.sql("insert into Branch(id, name, country, city) values(:id, :name, :country, :city)")
-                .bind("id", newId)
+                .bind("id", branch.getId())
                 .bind("name", branchData.getName())
                 .bind("country", branchData.getCountry())
                 .bind("city", branchData.getCity())
                 .fetch()
                 .one()
                 .subscribe();
-        branch.setId(newId);
         return Mono.just(branch);
     }
 }

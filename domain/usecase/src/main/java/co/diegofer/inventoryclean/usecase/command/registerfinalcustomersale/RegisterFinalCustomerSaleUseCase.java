@@ -11,16 +11,16 @@ import co.diegofer.inventoryclean.usecase.generics.UserCaseForCommand;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 public class RegisterFinalCustomerSaleUseCase extends UserCaseForCommand<RegisterFinalCustomerSaleCommand> {
 
-    private final ProductRepository productRepository;
 
     private final DomainEventRepository repository;
     private final EventBus eventBus;
 
 
-    public RegisterFinalCustomerSaleUseCase(ProductRepository productRepository, DomainEventRepository repository, EventBus eventBus) {
-        this.productRepository = productRepository;
+    public RegisterFinalCustomerSaleUseCase(DomainEventRepository repository, EventBus eventBus) {
         this.repository = repository;
         this.eventBus = eventBus;
     }
@@ -29,12 +29,11 @@ public class RegisterFinalCustomerSaleUseCase extends UserCaseForCommand<Registe
     public Flux<DomainEvent> apply(Mono<RegisterFinalCustomerSaleCommand> registerFinalCustomerSaleCommandMono) {
         return registerFinalCustomerSaleCommandMono.flatMapMany(command -> repository.findById(command.getBranchId())
                 .collectList()
-                .flatMapMany(events -> productRepository.reduceStock(command.getProducts())
                         .flatMapMany(
-
-                                productsStockReduced ->{
+                                events ->{
                                     BranchAggregate branch = BranchAggregate.from(BranchId.of(command.getBranchId()), events);
                                     branch.registerFinalCustomerSale(
+                                            UUID.randomUUID().toString(),
                                             command.getProducts(),
                                             branch.calculateTotal(command.getProducts())
                                     );
@@ -45,7 +44,6 @@ public class RegisterFinalCustomerSaleUseCase extends UserCaseForCommand<Registe
                 .map(event -> {
                     eventBus.publish(event);
                     return event;
-                }).flatMap(repository::saveEvent)
-        );
+                }).flatMap(repository::saveEvent);
     }
 }

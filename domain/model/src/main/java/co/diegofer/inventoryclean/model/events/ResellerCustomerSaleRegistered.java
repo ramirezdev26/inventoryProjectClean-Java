@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ResellerCustomerSaleRegistered extends DomainEvent {
 
+    String invoiceId;
     List<ProductSale> products;
     int total;
 
@@ -14,10 +15,15 @@ public class ResellerCustomerSaleRegistered extends DomainEvent {
         super("co.diegofer.inventoryclean.model.events.ResellerCustomerSaleRegistered");
     }
 
-    public ResellerCustomerSaleRegistered(List<ProductSale> products, int total) {
+    public ResellerCustomerSaleRegistered(String invoiceId, List<ProductSale> products, int total) {
         super("co.diegofer.inventoryclean.model.events.ResellerCustomerSaleRegistered");
+        this.invoiceId = invoiceId;
         this.products = products;
         this.total = total;
+    }
+
+    public String getInvoiceId() {
+        return invoiceId;
     }
 
     public List<ProductSale> getProducts() {

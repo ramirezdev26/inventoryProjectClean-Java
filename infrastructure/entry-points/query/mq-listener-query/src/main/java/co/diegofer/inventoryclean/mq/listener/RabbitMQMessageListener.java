@@ -4,7 +4,6 @@ import co.diegofer.inventoryclean.model.generic.DomainEvent;
 import co.diegofer.inventoryclean.mq.listener.data.Notification;
 import co.diegofer.inventoryclean.serializer.JSONMapper;
 import co.diegofer.inventoryclean.usecase.mysqlupdaterv2.MySQLUpdaterV2UseCase;
-import co.diegofer.inventoryclean.usecase.query.mysqlupdaterusecase.MySQLUpdaterUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;

@@ -2,6 +2,7 @@ package co.diegofer.inventoryclean.model.commands.RegisterFinalCustomerSaleComma
 
 public class ProductSale {
     String id;
+    String name;
     int quantity;
 
 
@@ -10,7 +11,12 @@ public class ProductSale {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getQuantity() {
         return quantity;
     }
+
 }

@@ -21,6 +21,7 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
     protected City city;
     protected List<ProductEntity> products;
     protected List<UserEntity> users;
+    protected List<InvoiceEntity> invoices;
 
     public BranchAggregate(BranchId id, Name name, Country country, City city) {
         super(id);
@@ -39,20 +40,20 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
         return branchAggregate;
     }
 
-    public void addProduct(ProductId productId, Name name, Category category, Description description, Price price) {
-        appendChange(new ProductAdded(productId.value(), name.value(), category.value(), description.value(), price.value())).apply();
+    public void addProduct(ProductId productId, Name name, Category category, Description description, Price price, String branchId) {
+        appendChange(new ProductAdded(productId.value(), name.value(), category.value(), description.value(), price.value(), branchId)).apply();
     }
 
     public void addUser(UserId userId, Name name, LastName lastName, Email email, Password password, Role role) {
         appendChange(new UserAdded(userId.value(), name.value(), lastName.value(), email.value(), password.value(), role.value())).apply();
     }
 
-    public void registerFinalCustomerSale(List<ProductSale> products, int total){
-        appendChange(new FinalCustomerSaleRegistered(products, total)).apply();
+    public void registerFinalCustomerSale(String invoiceId, List<ProductSale> products, int total){
+        appendChange(new FinalCustomerSaleRegistered(invoiceId, products, total)).apply();
     }
 
-    public void registerResellerCustomerSale(List<ProductSale> products, int total){
-        appendChange(new ResellerCustomerSaleRegistered(products, total)).apply();
+    public void registerResellerCustomerSale(String invoiceId, List<ProductSale> products, int total){
+        appendChange(new ResellerCustomerSaleRegistered(invoiceId, products, total)).apply();
     }
 
     public void addStockToProduct(ProductId productId, InventoryStock inventoryStock){

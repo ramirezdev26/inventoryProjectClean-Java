@@ -14,16 +14,16 @@ import co.diegofer.inventoryclean.usecase.generics.UserCaseForCommand;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 public class RegisterProductUseCase extends UserCaseForCommand<AddProductCommand> {
 
-    private final ProductRepository productRepository;
 
     private final DomainEventRepository repository;
     private final EventBus eventBus;
 
 
-    public RegisterProductUseCase(ProductRepository productRepository, DomainEventRepository repository, EventBus eventBus) {
-        this.productRepository = productRepository;
+    public RegisterProductUseCase(DomainEventRepository repository, EventBus eventBus) {
         this.repository = repository;
         this.eventBus = eventBus;
     }
@@ -34,22 +34,20 @@ public class RegisterProductUseCase extends UserCaseForCommand<AddProductCommand
         return addProductCommandMono.flatMapMany(command -> repository.findById(command.getBranchId())
                 .collectList()
                 .flatMapIterable(events -> {
-                    Mono<Product> productSaved = productRepository.saveAProduct(new Product(
-                            command.getName(),
-                            command.getDescription(),
-                            0,
-                            command.getPrice(),
-                            command.getCategory(),
-                            command.getBranchId()
-                    ));
+
+                    Name name = new Name(command.getName());
+                    Category category = new Category(command.getCategory());
+                    Description description = new Description(command.getDescription());
+                    Price price = new Price(command.getPrice());
 
                     BranchAggregate branch = BranchAggregate.from(BranchId.of(command.getBranchId()),events);
                     branch.addProduct(
-                            ProductId.of(productSaved.block().getId()),
-                            new Name(command.getName()),
-                            new Category(command.getCategory()),
-                            new Description(command.getDescription()),
-                            new Price(command.getPrice())
+                            ProductId.of(UUID.randomUUID().toString()),
+                            name,
+                            category,
+                            description,
+                            price,
+                            command.getBranchId()
                     );
                     return branch.getUncommittedChanges();
                 }).map(event -> {

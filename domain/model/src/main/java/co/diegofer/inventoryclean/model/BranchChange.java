@@ -6,12 +6,14 @@ import co.diegofer.inventoryclean.model.generic.EventChange;
 import co.diegofer.inventoryclean.model.values.branch.City;
 import co.diegofer.inventoryclean.model.values.branch.Country;
 import co.diegofer.inventoryclean.model.values.common.Name;
+import co.diegofer.inventoryclean.model.values.invoice.InvoiceId;
 import co.diegofer.inventoryclean.model.values.product.*;
 import co.diegofer.inventoryclean.model.values.user.Email;
 import co.diegofer.inventoryclean.model.values.user.Password;
 import co.diegofer.inventoryclean.model.values.user.Role;
 import co.diegofer.inventoryclean.model.values.user.UserId;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -25,6 +27,7 @@ public class BranchChange extends EventChange {
             branchAggregate.city = new City(event.getCity());
             branchAggregate.products = new ArrayList<>();
             branchAggregate.users = new ArrayList<>();
+            branchAggregate.invoices = new ArrayList<>();
         });
 
         apply((ProductAdded event) -> {
@@ -57,6 +60,15 @@ public class BranchChange extends EventChange {
         });
 
         apply((FinalCustomerSaleRegistered event) -> {
+
+            branchAggregate.invoices.add(new InvoiceEntity(
+                    InvoiceId.of(event.getInvoiceId()),
+                    event.getProducts(),
+                    event.getTotal(),
+                    LocalDateTime.now(),
+                    "Final customer sale"
+                    ));
+
             for (ProductSale productRequested: event.getProducts()) {
                 for (ProductEntity productInBranch: branchAggregate.products) {
                     if (Objects.equals(productRequested.getId(), productInBranch.identity().value())){
@@ -70,6 +82,15 @@ public class BranchChange extends EventChange {
         });
 
         apply((ResellerCustomerSaleRegistered event) -> {
+
+            branchAggregate.invoices.add(new InvoiceEntity(
+                    InvoiceId.of(event.getInvoiceId()),
+                    event.getProducts(),
+                    event.getTotal(),
+                    LocalDateTime.now(),
+                    "Reseller sale"
+            ));
+
             for (ProductSale productRequested: event.getProducts()) {
                 for (ProductEntity productInBranch: branchAggregate.products) {
                     if (Objects.equals(productRequested.getId(), productInBranch.identity().value())){

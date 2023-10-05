@@ -64,5 +64,17 @@ public class MySqlUpdater extends DomainUpdater {
                 productRepository.reduceStock(event.getProducts()).subscribe();
                 invoiceRepository.saveInvoice(invoiceEntity).subscribe();
         });
+
+        listen((ResellerCustomerSaleRegistered event) -> {
+            InvoiceEntity invoiceEntity = new InvoiceEntity(
+                    InvoiceId.of(event.getInvoiceId()),
+                    event.getProducts(),
+                    event.getTotal(),
+                    event.getType(),
+                    event.aggregateRootId()
+            );
+            productRepository.reduceStock(event.getProducts()).subscribe();
+            invoiceRepository.saveInvoice(invoiceEntity).subscribe();
+        });
     }
 }

@@ -22,6 +22,8 @@ include ':r2dbc-postgresql'
 project(':r2dbc-postgresql').projectDir = file('./infrastructure/driven-adapters/r2dbc-postgresql')
 include ':reactive-web'
 project(':reactive-web').projectDir = file('./infrastructure/entry-points/command/reactive-web')
+include ':reactive-web-query'
+project(':reactive-web-query').projectDir = file('./infrastructure/entry-points/query/reactive-web-query')
 include ':mongo-repository'
 project(':mongo-repository').projectDir = file('./infrastructure/driven-adapters/mongo-repository')
 include ':mongo-repository-query'

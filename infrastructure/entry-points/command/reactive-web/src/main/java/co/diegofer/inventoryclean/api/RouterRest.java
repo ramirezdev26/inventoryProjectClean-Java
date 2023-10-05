@@ -18,13 +18,6 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 public class RouterRest {
 
-    @Bean
-    public RouterFunction<ServerResponse> viewAllBranches(GetAllBranchesUseCase viewBranches) {
-        return route(GET("/branches"),
-                request -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(viewBranches.apply(), Branch.class)));
-    }
 
     @Bean
     public RouterFunction<ServerResponse> saveBranch(Handler handler){
@@ -45,16 +38,6 @@ public class RouterRest {
                 handler::listenPOSTRegisterUser);
     }
 
-    @Bean
-    public RouterFunction<ServerResponse> getProductsByBranch(GetProductsByBranchIdUseCase getProductsByBranchIdUseCase) {
-        return route(GET("/products/{branch_id}"),
-                request -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(getProductsByBranchIdUseCase.apply(request.pathVariable("branch_id")), Product.class))
-                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
-        );
-
-    }
 
     @Bean
     public RouterFunction<ServerResponse> patchAddProductStock(Handler handler) {

@@ -36,7 +36,9 @@ public class RegisterResellerCustomerSaleUseCase extends UserCaseForCommand<Regi
                                     branch.registerResellerCustomerSale(
                                             UUID.randomUUID().toString(),
                                             command.getProducts(),
-                                            branch.calculateTotal(command.getProducts())
+                                            branch.calculateTotal(command.getProducts()),
+                                            "Reseller Customer type",
+                                            command.getBranchId()
                                     );
 
                                     return Flux.fromIterable(branch.getUncommittedChanges());

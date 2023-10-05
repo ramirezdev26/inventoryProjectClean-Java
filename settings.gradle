@@ -10,10 +10,12 @@ rootProject.name = 'inventoryProject'
 
 include ':app-service'
 include ':app-query'
+include ':app-socket'
 include ':model'
 include ':usecase'
 project(':app-service').projectDir = file('./applications/app-service')
 project(':app-query').projectDir = file('./applications/app-query')
+project(':app-socket').projectDir = file('./applications/app-socket')
 project(':model').projectDir = file('./domain/model')
 project(':usecase').projectDir = file('./domain/usecase')
 include ':r2dbc-postgresql'
@@ -28,3 +30,7 @@ include ':async-event-bus'
 project(':async-event-bus').projectDir = file('./infrastructure/driven-adapters/async-event-bus')
 include ':mq-listener-query'
 project(':mq-listener-query').projectDir = file('./infrastructure/entry-points/query/mq-listener-query')
+include ':mq-listener-socket'
+project(':mq-listener-socket').projectDir = file('./infrastructure/entry-points/socket/mq-listener-socket')
+include ':socket-responder'
+project(':socket-responder').projectDir = file('./infrastructure/entry-points/socket/socket-responder')

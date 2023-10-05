@@ -1,7 +1,9 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
-	implementation project( ':async-event-bus')
+    implementation project( ':mq-listener-socket')
+    implementation project( ':socket-responder')
+    implementation project( ':async-event-bus')
 	implementation project( ':mongo-repository')
     implementation project( ':reactive-web')
     implementation project( ':r2dbc-postgresql')
@@ -13,6 +15,7 @@ dependencies {
     testImplementation 'com.tngtech.archunit:archunit:1.0.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     runtimeOnly 'io.asyncer:r2dbc-mysql'

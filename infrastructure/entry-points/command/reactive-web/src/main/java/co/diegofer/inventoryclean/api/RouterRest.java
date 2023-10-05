@@ -1,6 +1,8 @@
 package co.diegofer.inventoryclean.api;
 
+import co.diegofer.inventoryclean.model.branch.Branch;
 import co.diegofer.inventoryclean.model.product.Product;
+import co.diegofer.inventoryclean.usecase.query.getallbranches.GetAllBranchesUseCase;
 import co.diegofer.inventoryclean.usecase.query.getproductsbybranchid.GetProductsByBranchIdUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,14 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 
 @Configuration
 public class RouterRest {
+
+    @Bean
+    public RouterFunction<ServerResponse> viewAllBranches(GetAllBranchesUseCase viewBranches) {
+        return route(GET("/branches"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(viewBranches.apply(), Branch.class)));
+    }
 
     @Bean
     public RouterFunction<ServerResponse> saveBranch(Handler handler){

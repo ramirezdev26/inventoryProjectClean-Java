@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -20,6 +21,13 @@ public class BranchRepositoryAdapter implements BranchRepository {
     private final BranchRepositoryR2dbc branchRepository;
 
     private final DatabaseClient dbClient;
+
+    @Override
+    public Flux<Branch> getAllBranches() {
+        return branchRepository.findAll()
+                .switchIfEmpty(Flux.empty())
+                .map(branchData -> mapper.map(branchData, Branch.class));
+    }
 
     @Override
     public Mono<Branch> saveABranch(Branch branch) {

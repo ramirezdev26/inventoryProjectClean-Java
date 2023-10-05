@@ -5,6 +5,7 @@ dependencies {
     implementation project( ':socket-responder')
     implementation project( ':async-event-bus')
 	implementation project( ':mongo-repository')
+	implementation project( ':mongo-repository-query')
     implementation project( ':reactive-web')
     implementation project( ':r2dbc-postgresql')
     implementation project( ':serializer')

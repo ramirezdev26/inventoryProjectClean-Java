@@ -1,6 +1,5 @@
 package co.diegofer.inventoryclean.controller;
 
-import co.diegofer.inventoryclean.controller.model.CommentModel;
 import co.diegofer.inventoryclean.model.generic.DomainEvent;
 import co.diegofer.inventoryclean.serializer.JSONMapper;
 import co.diegofer.inventoryclean.serializer.JSONMapperImpl;
@@ -20,15 +19,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
-@ServerEndpoint("/retrieve/{correlationId}")
-public class SocketController {
+@ServerEndpoint("/inventory/invoice/{correlationId}")
+public class InvoiceSocketController {
 
-    private static final Logger logger = Logger.getLogger(SocketController.class.getName());
+    private static final Logger logger = Logger.getLogger(ProductSocketController.class.getName());
     private static Map<String, Map<String, Session>> sessions;
     private final JSONMapper eventSerializer = new JSONMapperImpl();
 
 
-    public SocketController() {
+    public InvoiceSocketController() {
         if (Objects.isNull(sessions)) {
             sessions = new ConcurrentHashMap<>();
         }
@@ -56,7 +55,7 @@ public class SocketController {
     }
 
 
-    public void sendBranchCreated(String correlationId, DomainEvent event) {
+    public void sendInvoiceEventToSocket(String correlationId, DomainEvent event) {
         String message = eventSerializer.writeToJson(event);
         if (Objects.nonNull(correlationId) && sessions.containsKey(correlationId)) {
             logger.info("Sent from: " + correlationId);
@@ -74,20 +73,6 @@ public class SocketController {
         }
     }
 
-    public void sendCommentAdded(String correlationId, CommentModel model) {
-        String message = eventSerializer.writeToJson(model);
-        if (Objects.nonNull(correlationId) && sessions.containsKey(correlationId)) {
-            logger.info("Sent from: " + correlationId);
-            sessions
-                    .get(correlationId)
-                    .values()
-                    .forEach(session -> {
-                        try {
-                            session.getAsyncRemote().sendText(message);
-                        } catch (RuntimeException e) {
-                            logger.log(Level.SEVERE, e.getMessage(), e);
-                        }
-                    });
-        }
-    }
+
+
 }

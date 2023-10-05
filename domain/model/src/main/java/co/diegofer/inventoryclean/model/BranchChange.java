@@ -65,8 +65,8 @@ public class BranchChange extends EventChange {
                     InvoiceId.of(event.getInvoiceId()),
                     event.getProducts(),
                     event.getTotal(),
-                    LocalDateTime.now(),
-                    "Final customer sale"
+                    "Final customer sale",
+                    branchAggregate.identity().value()
                     ));
 
             for (ProductSale productRequested: event.getProducts()) {
@@ -87,8 +87,8 @@ public class BranchChange extends EventChange {
                     InvoiceId.of(event.getInvoiceId()),
                     event.getProducts(),
                     event.getTotal(),
-                    LocalDateTime.now(),
-                    "Reseller sale"
+                    "Reseller sale",
+                    branchAggregate.identity().value()
             ));
 
             for (ProductSale productRequested: event.getProducts()) {

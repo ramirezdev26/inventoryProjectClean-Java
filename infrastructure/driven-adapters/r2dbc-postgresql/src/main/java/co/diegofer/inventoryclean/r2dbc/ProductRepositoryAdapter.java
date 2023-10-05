@@ -27,10 +27,9 @@ public class ProductRepositoryAdapter implements ProductRepository {
 
     @Override
     public Mono<Product> saveAProduct(Product product) {
-        String newId = UUID.randomUUID().toString();
         ProductData productData = mapper.map(product, ProductData.class);
         dbClient.sql("INSERT INTO Product(id, name, description, inventory_stock, price, category, branch_id) VALUES(:id, :name, :description, :inventoryStock, :price, :category, :branchId)")
-                .bind("id", newId)
+                .bind("id", product.getId())
                 .bind("name", productData.getName())
                 .bind("description", productData.getDescription())
                 .bind("inventoryStock", productData.getInventoryStock())
@@ -40,7 +39,6 @@ public class ProductRepositoryAdapter implements ProductRepository {
                 .fetch()
                 .one()
                 .subscribe();
-        product.setId(newId);
         return Mono.just(product);
     }
 

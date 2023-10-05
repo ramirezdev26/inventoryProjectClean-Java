@@ -44,12 +44,12 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
         appendChange(new ProductAdded(productId.value(), name.value(), category.value(), description.value(), price.value(), branchId)).apply();
     }
 
-    public void addUser(UserId userId, Name name, LastName lastName, Email email, Password password, Role role) {
-        appendChange(new UserAdded(userId.value(), name.value(), lastName.value(), email.value(), password.value(), role.value())).apply();
+    public void addUser(UserId userId, Name name, LastName lastName, Email email, Password password, Role role, String branchId) {
+        appendChange(new UserAdded(userId.value(), name.value(), lastName.value(), email.value(), password.value(), role.value(), branchId)).apply();
     }
 
-    public void registerFinalCustomerSale(String invoiceId, List<ProductSale> products, int total){
-        appendChange(new FinalCustomerSaleRegistered(invoiceId, products, total)).apply();
+    public void registerFinalCustomerSale(String invoiceId, List<ProductSale> products, int total, String type, String branchId){
+        appendChange(new FinalCustomerSaleRegistered(invoiceId, products, total, type, branchId)).apply();
     }
 
     public void registerResellerCustomerSale(String invoiceId, List<ProductSale> products, int total){

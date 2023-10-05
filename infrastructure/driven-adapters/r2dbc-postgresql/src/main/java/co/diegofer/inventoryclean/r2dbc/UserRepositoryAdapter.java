@@ -23,9 +23,7 @@ public class UserRepositoryAdapter implements UserRepository {
 
     @Override
     public Mono<User> saveAUser(User user) {
-        String newId = UUID.randomUUID().toString();
         UserData userData = mapper.map(user, UserData.class);
-        userData.setId(newId);
 
         return userRepositoryR2dbc.saveUser(userData.getId(),userData.getName(),userData.getLastName(),
                 userData.getPassword(),userData.getEmail(),userData.getRole(),userData.getBranchId()).thenReturn(

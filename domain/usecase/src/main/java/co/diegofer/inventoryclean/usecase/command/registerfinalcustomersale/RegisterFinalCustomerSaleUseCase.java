@@ -35,7 +35,9 @@ public class RegisterFinalCustomerSaleUseCase extends UserCaseForCommand<Registe
                                     branch.registerFinalCustomerSale(
                                             UUID.randomUUID().toString(),
                                             command.getProducts(),
-                                            branch.calculateTotal(command.getProducts())
+                                            branch.calculateTotal(command.getProducts()),
+                                            "Final Customer type",
+                                            command.getBranchId()
                                     );
 
                                     return Flux.fromIterable(branch.getUncommittedChanges());

@@ -38,6 +38,7 @@ public class RegisterUserUseCase extends UserCaseForCommand<RegisterUserCommand>
                     Email email = new Email(command.getEmail());
                     Password password = new Password(command.getPassword());
                     Role role = new Role(command.getRole());
+
                     BranchAggregate branch = BranchAggregate.from(BranchId.of(command.getBranchId()), events);
                     branch.addUser(
                             UserId.of(UUID.randomUUID().toString()),
@@ -45,7 +46,8 @@ public class RegisterUserUseCase extends UserCaseForCommand<RegisterUserCommand>
                             lastName,
                             email,
                             password,
-                            role
+                            role,
+                            command.getBranchId()
                     );
 
                     return Flux.fromIterable(branch.getUncommittedChanges());

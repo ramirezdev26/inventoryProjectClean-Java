@@ -24,6 +24,8 @@ include ':reactive-web'
 project(':reactive-web').projectDir = file('./infrastructure/entry-points/command/reactive-web')
 include ':mongo-repository'
 project(':mongo-repository').projectDir = file('./infrastructure/driven-adapters/mongo-repository')
+include ':mongo-repository-query'
+project(':mongo-repository-query').projectDir = file('./infrastructure/driven-adapters/mongo-repository-query')
 include ':serializer'
 project(':serializer').projectDir = file('./infrastructure/helpers/serializer')
 include ':async-event-bus'

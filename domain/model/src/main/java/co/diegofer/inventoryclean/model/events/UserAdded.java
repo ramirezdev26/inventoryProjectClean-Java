@@ -11,12 +11,13 @@ public class UserAdded extends DomainEvent {
     private String email;
     private String password;
     private String role;
+    private String branchId;
 
     public UserAdded() {
         super("co.diegofer.inventoryclean.model.events.UserAdded");
     }
 
-    public UserAdded(String userId, String name, String lastName, String email, String password, String role) {
+    public UserAdded(String userId, String name, String lastName, String email, String password, String role, String branchId) {
         super("co.diegofer.inventoryclean.model.events.UserAdded");
         this.userId = userId;
         this.name = name;
@@ -24,6 +25,7 @@ public class UserAdded extends DomainEvent {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.branchId = branchId;
     }
 
     public String getUserId() {
@@ -48,5 +50,9 @@ public class UserAdded extends DomainEvent {
 
     public String getRole() {
         return role;
+    }
+
+    public String getBranchId() {
+        return branchId;
     }
 }

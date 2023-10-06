@@ -19,9 +19,9 @@ public class RabbitMqConfig {
 
     public static final String USER_ADDED_SOCKET_QUEUE = "inventory.events.user.added.socket.queue";
 
-    public static final String CUSTOMER_SALE_REGISTERED_SOCKET_QUEUE = "inventory.events.customer.sale.registered.socket.queue";
+    public static final String CUSTOMER_SALE_REGISTERED_SOCKET_QUEUE = "inventory.events.sale.customer.registered.socket.queue";
 
-    public static final String RESELLER_SALE_REGISTERED_SOCKET_QUEUE = "inventory.events.reseller.sale.registered.socket.queue";
+    public static final String RESELLER_SALE_REGISTERED_SOCKET_QUEUE = "inventory.events.sale.reseller.registered.socket.queue";
     public static final String SALE_REGISTERED_SOCKET_QUEUE = "inventory.events.sale.registered.socket.queue";
 
     public static final String STOCK_ADDED_SOCKET_QUEUE = "inventory.events.stock.added.socket.queue";

@@ -41,19 +41,19 @@ public class RouterRest {
 
     @Bean
     public RouterFunction<ServerResponse> patchAddProductStock(Handler handler) {
-        return route(PATCH("/api/v1/product/purchase").and(accept(MediaType.APPLICATION_JSON)),
+        return route(PATCH("product/purchase").and(accept(MediaType.APPLICATION_JSON)),
                 handler::listenPATCHAddStock);
     }
 
     @Bean
     public RouterFunction<ServerResponse> patchRegisterFinalCustomerSale(Handler handler){
-        return route(PATCH("/api/v1/product/customer-sale").and(accept(MediaType.APPLICATION_JSON)),
+        return route(PATCH("product/customer-sale").and(accept(MediaType.APPLICATION_JSON)),
                 handler::listenPATCHRegisterFinalCustomerSale);
     }
 
     @Bean
     public RouterFunction<ServerResponse> patchRegisterResellerCustomerSale(Handler handler){
-        return route(PATCH("/api/v1/product/reseller-sale").and(accept(MediaType.APPLICATION_JSON)),
+        return route(PATCH("product/reseller-sale").and(accept(MediaType.APPLICATION_JSON)),
                 handler::listenPATCHResellerFinalCustomerSale);
     }
 

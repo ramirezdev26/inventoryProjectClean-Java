@@ -26,6 +26,7 @@ public class FinalCustomerSaleRegistered extends DomainEvent {
         this.total = total;
         this.type = type;
         this.branchId = branchId;
+        this.date = LocalDateTime.now();
     }
 
     public List<ProductSale> getProducts() {

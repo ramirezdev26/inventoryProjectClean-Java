@@ -26,6 +26,8 @@ public class ResellerCustomerSaleRegistered extends DomainEvent {
         this.total = total;
         this.type = type;
         this.branchId = branchId;
+        this.date = LocalDateTime.now();
+
     }
 
     public String getInvoiceId() {

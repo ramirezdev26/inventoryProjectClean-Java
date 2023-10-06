@@ -11,9 +11,20 @@ spring:
       path: "/h2"
   profiles:
     include: null
+  r2dbc:
+    url: r2dbc:mysql://mysql:3306/inventory
+    username: root
+    password: root
   data:
     mongodb:
-      uri: "mongodb://localhost:27017/test"
+      uri: "mongodb://mongodb:27017/inventoryDB"
+  rabbitmq:
+    host: toad-01.rmq.cloudamqp.com
+    port: 5672
+    username: rmruikcp
+    password: 6-MMDMoEvOufr6up1zGut6wOeXnVit30
+    virtual-host: rmruikcp
+
 management:
   endpoints:
     web:
@@ -24,14 +35,4 @@ management:
       probes:
         enabled: true
 cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080"
-commons:
-  jms:
-    input-concurrency: 10
-    input-queue: "DEV.QUEUE.2"
-    input-queue-alias: ""
-    reactive: true
-ibm:
-  mq:
-    channel: "DEV.APP.SVRCONN"
-    user: "app"
+  allowed-origins: "http://localhost:4200,http://localhost:8080,http://inventory-front:4200"

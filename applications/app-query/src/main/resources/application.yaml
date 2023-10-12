@@ -1,5 +1,7 @@
 server:
   port: 8081
+  ssl:
+    enable: false
 spring:
   application:
     name: "inventoryProject"
@@ -35,4 +37,4 @@ management:
       probes:
         enabled: true
 cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080,http://inventory-front:4200"
+  allowedOriginPatterns: "*"

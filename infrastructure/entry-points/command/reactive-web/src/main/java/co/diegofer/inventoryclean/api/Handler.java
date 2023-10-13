@@ -3,6 +3,7 @@ package co.diegofer.inventoryclean.api;
 import co.diegofer.inventoryclean.model.commands.*;
 import co.diegofer.inventoryclean.model.commands.RegisterFinalCustomerSaleCommand.RegisterFinalCustomerSaleCommand;
 import co.diegofer.inventoryclean.usecase.command.addstocktoproduct.AddStockToProductUseCase;
+import co.diegofer.inventoryclean.usecase.command.changeUserRole.ChangeUserRoleUseCase;
 import co.diegofer.inventoryclean.usecase.command.registerbranch.RegisterBranchUseCase;
 import co.diegofer.inventoryclean.usecase.command.registerfinalcustomersale.RegisterFinalCustomerSaleUseCase;
 import co.diegofer.inventoryclean.usecase.command.registerproduct.RegisterProductUseCase;
@@ -28,6 +29,7 @@ public class Handler {
     private final AddStockToProductUseCase addStockToProductUseCase;
     private final RegisterFinalCustomerSaleUseCase registerFinalCustomerSaleUseCase;
     private final RegisterResellerCustomerSaleUseCase registerResellerCustomerSaleUseCaseCommand;
+    private final ChangeUserRoleUseCase changeUserRoleUseCase;
 
     public Mono<ServerResponse> listenPOSTRegisterBranchUseCase(ServerRequest serverRequest) {
 
@@ -61,6 +63,16 @@ public class Handler {
     public Mono<ServerResponse> listenPATCHAddStock(ServerRequest serverRequest) {
 
         return addStockToProductUseCase.apply(serverRequest.bodyToMono(AddStockToProductCommand.class))
+                .flatMap(domainEvent -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(domainEvent))).next()
+                .onErrorResume(Exception.class, e -> ServerResponse.badRequest().bodyValue(e.getMessage()));
+
+    }
+
+    public Mono<ServerResponse> listenPATCHChangeRole(ServerRequest serverRequest) {
+
+        return changeUserRoleUseCase.apply(serverRequest.bodyToMono(ChangeUserRoleCommand.class))
                 .flatMap(domainEvent -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromValue(domainEvent))).next()

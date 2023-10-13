@@ -3,14 +3,8 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     implementation project( ':mq-listener-socket')
     implementation project( ':socket-responder')
-    implementation project( ':async-event-bus')
-	implementation project( ':mongo-repository')
-	implementation project( ':mongo-repository-query')
-    implementation project( ':reactive-web')
-    implementation project( ':r2dbc-postgresql')
     implementation project( ':serializer')
     implementation project(':model')
-    implementation project(':usecase')
     implementation 'org.springframework.boot:spring-boot-starter'
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
     testImplementation 'com.tngtech.archunit:archunit:1.0.1'

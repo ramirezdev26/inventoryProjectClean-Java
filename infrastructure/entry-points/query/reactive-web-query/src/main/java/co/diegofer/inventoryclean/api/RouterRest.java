@@ -3,10 +3,12 @@ package co.diegofer.inventoryclean.api;
 import co.diegofer.inventoryclean.model.InvoiceEntity;
 import co.diegofer.inventoryclean.model.branch.Branch;
 import co.diegofer.inventoryclean.model.product.Product;
+import co.diegofer.inventoryclean.model.user.User;
 import co.diegofer.inventoryclean.usecase.generics.InvoiceData;
 import co.diegofer.inventoryclean.usecase.query.getallbranches.GetAllBranchesUseCase;
 import co.diegofer.inventoryclean.usecase.query.getproductsbybranchid.GetProductsByBranchIdUseCase;
 import co.diegofer.inventoryclean.usecase.query.getinvoicesbybranchid.GetInvoicesByBranchIdUseCase;
+import co.diegofer.inventoryclean.usecase.query.getusersbybranchid.GetUsersByBranchIdUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,16 @@ public class RouterRest {
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getProductsByBranchIdUseCase.apply(request.pathVariable("branch_id")), Product.class))
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getUsersByBranch(GetUsersByBranchIdUseCase getUsersByBranchIdUseCase) {
+        return route(GET("/users/{branch_id}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getUsersByBranchIdUseCase.apply(request.pathVariable("branch_id")), User.class))
                         .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }

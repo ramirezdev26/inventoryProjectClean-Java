@@ -1,9 +1,7 @@
 package co.diegofer.inventoryclean.r2dbc.data;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,12 +15,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Getter
+@Setter
 public class UserData  implements UserDetails {
 
     @Id
     private String id;
     private String name;
-    private String lastName;
+    private String last_name;
     private String email;
     private String password;
     private String role;

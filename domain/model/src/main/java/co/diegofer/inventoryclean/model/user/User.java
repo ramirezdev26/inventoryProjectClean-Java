@@ -12,7 +12,7 @@ public class User {
 
     private String id;
     private String name;
-    private String lastName;
+    private String last_name;
     private String email;
     private String password;
     private String role;
@@ -20,11 +20,14 @@ public class User {
 
     public User(String name, String lastName, String email, String password, String role, String branchId) {
         this.name = name;
-        this.lastName = lastName;
+        this.last_name = lastName;
         this.email = email;
         this.password = password;
         this.role = role;
         this.branchId = branchId;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

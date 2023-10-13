@@ -46,6 +46,12 @@ public class RouterRest {
     }
 
     @Bean
+    public RouterFunction<ServerResponse> patchChangeRoleUser(Handler handler) {
+        return route(PATCH("user/role").and(accept(MediaType.APPLICATION_JSON)),
+                handler::listenPATCHChangeRole);
+    }
+
+    @Bean
     public RouterFunction<ServerResponse> patchRegisterFinalCustomerSale(Handler handler){
         return route(PATCH("product/customer-sale").and(accept(MediaType.APPLICATION_JSON)),
                 handler::listenPATCHRegisterFinalCustomerSale);

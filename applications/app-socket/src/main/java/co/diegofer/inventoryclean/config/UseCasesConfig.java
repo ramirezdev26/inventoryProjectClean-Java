@@ -1,10 +1,5 @@
 package co.diegofer.inventoryclean.config;
 
-import co.diegofer.inventoryclean.model.branch.gateways.BranchRepository;
-import co.diegofer.inventoryclean.model.product.gateways.ProductRepository;
-import co.diegofer.inventoryclean.model.user.gateways.UserRepository;
-import co.diegofer.inventoryclean.usecase.MySqlUpdater;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -14,10 +9,9 @@ import org.springframework.context.annotation.FilterType;
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+UseCase$"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Repository$"),
-                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Updater$")
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Updater$"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Bus$")
         },
         useDefaultFilters = false)
 public class UseCasesConfig {
-
-
 }

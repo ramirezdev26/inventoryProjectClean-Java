@@ -38,4 +38,8 @@ public class UserEntity extends Entity<UserId> {
         return role;
     }
 
+    public void changeRole(Role role){
+        this.role = role;
+    }
+
 }

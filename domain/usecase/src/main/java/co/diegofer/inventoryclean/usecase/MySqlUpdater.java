@@ -53,6 +53,12 @@ public class MySqlUpdater extends DomainUpdater {
             productRepository.addStock(event.getProductId(), event.getQuantityToAdd()).subscribe();
         });
 
+        listen((RoleToUserChanged event) -> {
+            System.out.println("Paso por aqui");
+            System.out.println(event.getRoleToChange());
+            userRepository.changeRole(event.getUserId(), event.getRoleToChange());
+        });
+
         listen((FinalCustomerSaleRegistered event) -> {
             InvoiceEntity invoiceEntity = new InvoiceEntity(
                     InvoiceId.of(event.getInvoiceId()),

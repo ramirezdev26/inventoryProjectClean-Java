@@ -60,6 +60,10 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
         appendChange(new StockToProductAdded(productId.value(), inventoryStock.value())).apply();
     }
 
+    public void changeRoleToUser(UserId userId, Role role){
+        appendChange(new RoleToUserChanged(userId.value(), role.value()));
+    }
+
     public int calculateTotal(List<ProductSale> products){
         int total = 0;
         for (ProductSale productRequested: products) {

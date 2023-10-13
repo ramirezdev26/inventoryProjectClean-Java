@@ -9,7 +9,6 @@ import co.diegofer.inventoryclean.r2dbc.data.UserData;
 import lombok.RequiredArgsConstructor;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class UserRepositoryAdapter implements UserRepository {
     public Mono<User> saveAUser(User user) {
         UserData userData = mapper.map(user, UserData.class);
         System.out.println(userData.getId());
-        return userRepositoryR2dbc.saveUser(userData.getId(),userData.getName(),userData.getLastName(),
+        return userRepositoryR2dbc.saveUser(userData.getId(),userData.getName(),userData.getLast_name(),
                 passwordEncoder.encode(userData.getPassword()),userData.getEmail(),
                 userData.getRole(),userData.getBranchId()).thenReturn(
                 mapper.map(userData, User.class)
@@ -54,11 +54,29 @@ public class UserRepositoryAdapter implements UserRepository {
         user.setId(UUID.randomUUID().toString());
         UserData userData = mapper.map(user, UserData.class);
 
-        return userRepositoryR2dbc.saveUser(userData.getId(),userData.getName(),userData.getLastName(),
+        return userRepositoryR2dbc.saveUser(userData.getId(),userData.getName(),userData.getLast_name(),
                 passwordEncoder.encode(userData.getPassword()),userData.getEmail(),
                 userData.getRole(),null).thenReturn(
                 mapper.map(userData, User.class)
         ).onErrorMap(DataIntegrityViolationException.class, e -> new DataIntegrityViolationException("Error creating user: "+e.getMessage()));
+    }
+
+    @Override
+    public Flux<User> findUsersByBranch(String branchId) {
+        return userRepositoryR2dbc.findByBranchId(branchId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Branch not found")))
+                .map(product -> mapper.map(product, User.class));    }
+
+    @Override
+    public Mono<User> changeRole(String userId, String role) {
+        System.out.println("entro");
+        return userRepositoryR2dbc.findById(userId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("User with id: " + userId + " was not found")))
+                .flatMap(user -> {
+                    user.setRole(role);
+                    System.out.println(user.getRole());
+                    return userRepositoryR2dbc.save(user);
+                }).map(user -> mapper.map(user, User.class));
     }
 
     public Mono<AuthResponse> authenticate(AuthRequest request) {
@@ -75,7 +93,11 @@ public class UserRepositoryAdapter implements UserRepository {
 
     private AuthResponse getAuthResponse(UserDetails userDetails) {
         var extraClaims = extractAuthorities("roles", userDetails);
-
+        String branchId = "";
+        if (userDetails instanceof UserData) {
+            branchId = ((UserData) userDetails).getBranchId();
+        }
+        extraClaims.put("branchId", branchId);
         var jwtToken = jwtService.generateToken(userDetails, extraClaims);
         return AuthResponse.builder()
                 .token(jwtToken)

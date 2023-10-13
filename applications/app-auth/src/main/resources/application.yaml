@@ -31,5 +31,3 @@ management:
         enabled: true
 cors:
   allowedOriginPatterns: "*"
-
-

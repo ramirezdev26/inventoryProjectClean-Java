@@ -59,6 +59,14 @@ public class BranchChange extends EventChange {
             }
         });
 
+        apply((RoleToUserChanged event) -> {
+            for (UserEntity user: branchAggregate.users) {
+                if (user.identity().value().equals(event.getUserId())){
+                    user.changeRole(new Role(event.getRole()));
+                }
+            }
+        });
+
         apply((FinalCustomerSaleRegistered event) -> {
 
             branchAggregate.invoices.add(new InvoiceEntity(

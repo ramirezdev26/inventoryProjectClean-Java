@@ -1,7 +1,7 @@
 package co.diegofer.inventoryclean.model.user;
 
 public enum RoleEnum {
-    SUPER,ADMIN,USER;
+    SUPER,ADMIN,SELLER;
 
     public static boolean contains(String role) {
         for (RoleEnum r : values()) {

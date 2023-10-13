@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Branch (
 CREATE TABLE IF NOT EXISTS User (
     id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
-    lastname VARCHAR(150) NOT NULL,
+    last_name VARCHAR(150) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     role VARCHAR(50) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS Product (
     FOREIGN KEY (branch_id) REFERENCES Branch(id) ON DELETE CASCADE
     );
 
-INSERT INTO User (id, name, lastname, password, email, role, branch_id)
+INSERT INTO User (id, name, last_name, password, email, role, branch_id)
 SELECT 'b7bd872a-e42b-43d7-a8fa-399a234619fc', 'admin', 'admin', '$2a$10$fqVlgWVxYJwUWs9FDqkm1.dYGSwq698.JFusqfScLZ2e81zLFxiOu', 'admin@admin.com', 'SUPER', null
 FROM DUAL
 WHERE NOT EXISTS (SELECT 1 FROM User WHERE email = 'admin@admin.com');

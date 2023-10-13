@@ -7,6 +7,7 @@ public class UserAdded extends DomainEvent {
 
     private String userId;
     private String name;
+    private String last_name;
     private String lastName;
     private String email;
     private String password;
@@ -21,6 +22,7 @@ public class UserAdded extends DomainEvent {
         super("co.diegofer.inventoryclean.model.events.UserAdded");
         this.userId = userId;
         this.name = name;
+        this.last_name = lastName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
@@ -37,7 +39,7 @@ public class UserAdded extends DomainEvent {
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
     public String getEmail() {

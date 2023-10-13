@@ -35,8 +35,7 @@ public class AddStockToProductUseCase extends UserCaseForCommand<AddStockToProdu
                                 events ->{
                                     BranchAggregate branch = BranchAggregate.from(BranchId.of(command.getBranchId()), events);
                                     branch.addStockToProduct(
-                                            ProductId.of(command.getProductId()),
-                                            new InventoryStock(command.getQuantity())
+                                            command.getProducts()
                                     );
 
                                     return Flux.fromIterable(branch.getUncommittedChanges());

@@ -1,29 +1,26 @@
 package co.diegofer.inventoryclean.model.events;
 
+import co.diegofer.inventoryclean.model.commands.custom.ProductToAdd;
 import co.diegofer.inventoryclean.model.generic.DomainEvent;
+
+import java.util.List;
+
 
 public class StockToProductAdded extends DomainEvent {
 
-    private String productId;
-    private Integer quantityToAdd;
+    private List<ProductToAdd> products;
+
 
     public StockToProductAdded() {
         super("co.diegofer.inventoryclean.model.events.StockToProductAdded");
     }
 
-    public StockToProductAdded(String productId, Integer quantityToAdd) {
+    public StockToProductAdded(List<ProductToAdd> products) {
         super("co.diegofer.inventoryclean.model.events.StockToProductAdded");
-        this.productId = productId;
-        this.quantityToAdd = quantityToAdd;
+        this.products = products;
     }
 
-    public String getProductId() {
-        return productId;
+    public List<ProductToAdd> getProducts() {
+        return products;
     }
-
-    public Integer getQuantityToAdd() {
-        return quantityToAdd;
-    }
-
-
 }

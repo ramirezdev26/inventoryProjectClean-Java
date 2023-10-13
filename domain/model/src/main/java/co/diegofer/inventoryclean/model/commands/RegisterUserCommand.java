@@ -7,7 +7,7 @@ public class RegisterUserCommand extends Command {
     public String branchId;
     public String userId;
     public String name;
-    public String lastName;
+    public String last_name;
     public String email;
     public String password;
     public String role;
@@ -40,11 +40,11 @@ public class RegisterUserCommand extends Command {
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.last_name = lastName;
     }
 
     public String getEmail() {

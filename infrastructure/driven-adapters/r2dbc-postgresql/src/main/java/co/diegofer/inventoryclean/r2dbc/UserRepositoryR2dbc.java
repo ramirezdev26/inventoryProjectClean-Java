@@ -11,10 +11,10 @@ import reactor.core.publisher.Mono;
 
 public interface UserRepositoryR2dbc extends ReactiveCrudRepository<UserData, String> {
 
-    @Query("INSERT INTO User(id, name, lastname, password, email, role, branch_id) VALUES(:id, :name, :lastname, :password, :email, :role, :branchId)")
+    @Query("INSERT INTO User(id, name, last_name, password, email, role, branch_id) VALUES(:id, :name, :last_name, :password, :email, :role, :branchId)")
     Mono<UserData> saveUser(@Param("id") String id,
                             @Param("name") String name,
-                            @Param("lastname") String lastname,
+                            @Param("last_name") String last_name,
                             @Param("password") String password,
                             @Param("email") String email,
                             @Param("role") String role,

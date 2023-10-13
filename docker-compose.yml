@@ -49,6 +49,16 @@ services:
     networks:
       - mynetwork
 
+  auth-app:
+    image: app-socket
+    ports:
+      - '8083:8083'
+    depends_on:
+      - mysql
+    restart: on-failure
+    networks:
+      - mynetwork
+
   front-app:
     image: inventory-front
     ports:

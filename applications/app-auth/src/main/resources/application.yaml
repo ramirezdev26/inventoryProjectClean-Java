@@ -8,18 +8,18 @@ spring:
   devtools:
     add-properties: false
   r2dbc:
-    url: "${R2DBC_URI:r2dbc:mysql://localhost:3306/inventory}"
+    url: "${R2DBC_URI:r2dbc:mysql://mysql:3306/inventory}"
     username: root
     password: root
   data:
     mongodb:
-      uri: "${MONGO_URI:mongodb://localhost:27017/inventoryDB}"
+      uri: "${MONGO_URI:mongodb://mongodb:27017/inventoryDB}"
   rabbitmq:
-    host: "${RABBIT_URI:localhost:5672}"
-    username: "guest"
-    password: "guest"
-    virtual-host: "/"
+    host: toad-01.rmq.cloudamqp.com
     port: 5672
+    username: rmruikcp
+    password: 6-MMDMoEvOufr6up1zGut6wOeXnVit30
+    virtual-host: rmruikcp
 management:
   endpoints:
     web:

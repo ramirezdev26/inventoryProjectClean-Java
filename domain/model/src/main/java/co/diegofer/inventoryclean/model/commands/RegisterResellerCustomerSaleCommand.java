@@ -13,6 +13,11 @@ public class RegisterResellerCustomerSaleCommand extends Command {
     public RegisterResellerCustomerSaleCommand() {
     }
 
+    public RegisterResellerCustomerSaleCommand(List<ProductSale> products, String branchId) {
+        this.products = products;
+        this.branchId = branchId;
+    }
+
     public List<ProductSale> getProducts() {
         return products;
     }

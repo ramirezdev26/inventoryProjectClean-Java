@@ -15,6 +15,16 @@ public class RegisterUserCommand extends Command {
     public RegisterUserCommand() {
     }
 
+    public RegisterUserCommand(String branchId, String userId, String name, String last_name, String email, String password, String role) {
+        this.branchId = branchId;
+        this.userId = userId;
+        this.name = name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public String getBranchId() {
         return branchId;
     }

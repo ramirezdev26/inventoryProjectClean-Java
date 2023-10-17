@@ -14,6 +14,15 @@ public class AddProductCommand extends Command {
     public AddProductCommand() {
     }
 
+    public AddProductCommand(String branchId, String productId, String name, String category, String description, Integer price) {
+        this.branchId = branchId;
+        this.productId = productId;
+        this.name = name;
+        this.category = category;
+        this.description = description;
+        this.price = price;
+    }
+
     public String getBranchId() {
         return branchId;
     }

@@ -54,9 +54,7 @@ public class MySqlUpdater extends DomainUpdater {
         });
 
         listen((RoleToUserChanged event) -> {
-            System.out.println("Paso por aqui");
-            System.out.println(event.getRoleToChange());
-            userRepository.changeRole(event.getUserId(), event.getRoleToChange());
+            userRepository.changeRole(event.getUserId(), event.getRoleToChange()).subscribe();
         });
 
         listen((FinalCustomerSaleRegistered event) -> {

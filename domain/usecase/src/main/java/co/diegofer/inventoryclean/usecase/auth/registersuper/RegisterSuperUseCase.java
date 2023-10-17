@@ -25,7 +25,6 @@ public class RegisterSuperUseCase {
             LastName lastName = new LastName(command1.getLastName());
             Email email = new Email(command1.getEmail());
             Password password = new Password(command1.getPassword());
-            //Role role = new Role(command.getRole());
 
             User user = new User(name.value(), lastName.value(), email.value(),
                     password.value(), RoleEnum.SUPER.name(), null);

@@ -69,14 +69,12 @@ public class UserRepositoryAdapter implements UserRepository {
 
     @Override
     public Mono<User> changeRole(String userId, String role) {
-        System.out.println("entro");
-        return userRepositoryR2dbc.findById(userId)
+        return userRepositoryR2dbc.findUserById(userId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("User with id: " + userId + " was not found")))
                 .flatMap(user -> {
                     user.setRole(role);
-                    System.out.println(user.getRole());
                     return userRepositoryR2dbc.save(user);
-                }).map(user -> mapper.map(user, User.class));
+                }).map(user -> mapper.map(user, User.class)).onErrorMap(DataIntegrityViolationException.class, e -> new DataIntegrityViolationException("Error creating user: "+e.getMessage()));
     }
 
     public Mono<AuthResponse> authenticate(AuthRequest request) {

@@ -13,6 +13,10 @@ public class AddStockToProductCommand extends Command {
     public AddStockToProductCommand() {
     }
 
+    public AddStockToProductCommand(List<ProductToAdd> products, String branchId) {
+        this.products = products;
+        this.branchId = branchId;
+    }
 
     public List<ProductToAdd> getProducts() {
         return products;

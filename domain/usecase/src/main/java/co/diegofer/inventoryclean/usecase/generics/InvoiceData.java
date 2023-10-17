@@ -14,6 +14,18 @@ public class InvoiceData {
     private String invoiceType;
     private String branchId;
 
+    public InvoiceData() {
+    }
+
+    public InvoiceData(String id, List<ProductSale> products, double total, LocalDateTime date, String invoiceType, String branchId) {
+        this.id = id;
+        this.products = products;
+        this.total = total;
+        this.date = date;
+        this.invoiceType = invoiceType;
+        this.branchId = branchId;
+    }
+
 
     public String getId() {
         return id;

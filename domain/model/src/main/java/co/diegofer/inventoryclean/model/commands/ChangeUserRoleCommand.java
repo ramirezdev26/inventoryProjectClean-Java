@@ -11,6 +11,11 @@ public class ChangeUserRoleCommand extends Command {
     public ChangeUserRoleCommand() {
     }
 
+    public ChangeUserRoleCommand(String userId, String branchId, String role) {
+        this.userId = userId;
+        this.branchId = branchId;
+        this.role = role;
+    }
 
     public String getUserId() {
         return userId;

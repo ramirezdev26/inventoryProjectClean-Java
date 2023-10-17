@@ -25,6 +25,7 @@ public interface UserRepositoryR2dbc extends ReactiveCrudRepository<UserData, St
 
     Flux<UserData> findByBranchId(String branchId);
 
-    Mono<UserData> findById(String id);
+    @Query("SELECT * FROM User WHERE id = :id")
+    Mono<UserData> findUserById(@Param("id") String id);
 
 }

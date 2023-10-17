@@ -12,6 +12,11 @@ public class RegisterFinalCustomerSaleCommand extends Command {
     public RegisterFinalCustomerSaleCommand() {
     }
 
+    public RegisterFinalCustomerSaleCommand(List<ProductSale> products, String branchId) {
+        this.products = products;
+        this.branchId = branchId;
+    }
+
     public List<ProductSale> getProducts() {
         return products;
     }

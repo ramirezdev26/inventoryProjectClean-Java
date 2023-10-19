@@ -4,6 +4,7 @@ import co.diegofer.inventoryclean.model.commands.*;
 import co.diegofer.inventoryclean.model.commands.RegisterFinalCustomerSaleCommand.RegisterFinalCustomerSaleCommand;
 import co.diegofer.inventoryclean.usecase.command.addstocktoproduct.AddStockToProductUseCase;
 import co.diegofer.inventoryclean.usecase.command.changeUserRole.ChangeUserRoleUseCase;
+import co.diegofer.inventoryclean.usecase.command.registerSupplier.RegisterSupplierUseCase;
 import co.diegofer.inventoryclean.usecase.command.registerbranch.RegisterBranchUseCase;
 import co.diegofer.inventoryclean.usecase.command.registerfinalcustomersale.RegisterFinalCustomerSaleUseCase;
 import co.diegofer.inventoryclean.usecase.command.registerproduct.RegisterProductUseCase;
@@ -26,6 +27,7 @@ public class Handler {
     private final RegisterProductUseCase registerProductUseCase;
 
     private final RegisterUserUseCase registerUserUseCase;
+    private final RegisterSupplierUseCase registerSupplierUseCase;
     private final AddStockToProductUseCase addStockToProductUseCase;
     private final RegisterFinalCustomerSaleUseCase registerFinalCustomerSaleUseCase;
     private final RegisterResellerCustomerSaleUseCase registerResellerCustomerSaleUseCaseCommand;
@@ -53,6 +55,16 @@ public class Handler {
     public Mono<ServerResponse> listenPOSTRegisterUser(ServerRequest serverRequest) {
 
         return registerUserUseCase.apply(serverRequest.bodyToMono(RegisterUserCommand.class))
+                .flatMap(domainEvent -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(domainEvent))).next()
+                .onErrorResume(Exception.class, e -> ServerResponse.badRequest().bodyValue(e.getMessage()));
+
+    }
+
+    public Mono<ServerResponse> listenPOSTRegisterSupplier(ServerRequest serverRequest) {
+
+        return registerSupplierUseCase.apply(serverRequest.bodyToMono(RegisterSupplierCommand.class))
                 .flatMap(domainEvent -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromValue(domainEvent))).next()

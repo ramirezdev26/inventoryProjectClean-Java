@@ -9,6 +9,9 @@ import co.diegofer.inventoryclean.model.values.branch.Country;
 import co.diegofer.inventoryclean.model.values.common.Name;
 import co.diegofer.inventoryclean.model.values.invoice.InvoiceId;
 import co.diegofer.inventoryclean.model.values.product.*;
+import co.diegofer.inventoryclean.model.values.supplier.ContactNumber;
+import co.diegofer.inventoryclean.model.values.supplier.PaymentTerm;
+import co.diegofer.inventoryclean.model.values.supplier.SupplierId;
 import co.diegofer.inventoryclean.model.values.user.Email;
 import co.diegofer.inventoryclean.model.values.user.Password;
 import co.diegofer.inventoryclean.model.values.user.Role;
@@ -29,6 +32,7 @@ public class BranchChange extends EventChange {
             branchAggregate.products = new ArrayList<>();
             branchAggregate.users = new ArrayList<>();
             branchAggregate.invoices = new ArrayList<>();
+            branchAggregate.suppliers = new ArrayList<>();
         });
 
         apply((ProductAdded event) -> {
@@ -49,6 +53,16 @@ public class BranchChange extends EventChange {
                     new Email(event.getEmail()),
                     new Password(event.getPassword()),
                     new Role(event.getRole())
+            ));
+        });
+
+        apply((SupplierAdded event) -> {
+            branchAggregate.suppliers.add(new SupplierEntity(
+                    SupplierId.of(event.getSupplierId()),
+                    new Name(event.getName()),
+                    new ContactNumber(event.getNumber()),
+                    new Email(event.getEmail()),
+                    new PaymentTerm(event.getPayment_term())
             ));
         });
 

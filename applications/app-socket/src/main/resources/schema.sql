@@ -32,6 +32,17 @@ CREATE TABLE IF NOT EXISTS Product (
     FOREIGN KEY (branch_id) REFERENCES Branch(id) ON DELETE CASCADE
     );
 
+-- Create the Supplier table
+CREATE TABLE IF NOT EXISTS Supplier (
+    id VARCHAR(50) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    number INT NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    payment_term VARCHAR(255) NOT NULL,
+    branch_id VARCHAR(50),
+    FOREIGN KEY (branch_id) REFERENCES Branch(id) ON DELETE CASCADE
+    );
+
 INSERT INTO User (id, name, last_name, password, email, role, branch_id)
 SELECT 'b7bd872a-e42b-43d7-a8fa-399a234619fc', 'admin', 'admin', '$2a$10$fqVlgWVxYJwUWs9FDqkm1.dYGSwq698.JFusqfScLZ2e81zLFxiOu', 'admin@admin.com', 'SUPER', null
 FROM DUAL

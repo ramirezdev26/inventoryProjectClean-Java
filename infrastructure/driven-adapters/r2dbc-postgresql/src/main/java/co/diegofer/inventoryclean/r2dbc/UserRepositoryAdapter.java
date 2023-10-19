@@ -39,7 +39,6 @@ public class UserRepositoryAdapter implements UserRepository {
     @Override
     public Mono<User> saveAUser(User user) {
         UserData userData = mapper.map(user, UserData.class);
-        System.out.println(userData.getId());
         return userRepositoryR2dbc.saveUser(userData.getId(),userData.getName(),userData.getLast_name(),
                 passwordEncoder.encode(userData.getPassword()),userData.getEmail(),
                 userData.getRole(),userData.getBranchId()).thenReturn(

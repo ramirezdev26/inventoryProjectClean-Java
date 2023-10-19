@@ -7,12 +7,12 @@ import co.diegofer.inventoryclean.model.events.*;
 import co.diegofer.inventoryclean.model.generic.DomainUpdater;
 import co.diegofer.inventoryclean.model.product.Product;
 import co.diegofer.inventoryclean.model.product.gateways.ProductRepository;
+import co.diegofer.inventoryclean.model.supplier.Supplier;
+import co.diegofer.inventoryclean.model.supplier.gateway.SupplierRepository;
 import co.diegofer.inventoryclean.model.user.User;
 import co.diegofer.inventoryclean.model.user.gateways.UserRepository;
 import co.diegofer.inventoryclean.model.values.invoice.InvoiceId;
 import co.diegofer.inventoryclean.usecase.generics.InvoiceRepository;
-
-import java.time.LocalDateTime;
 
 public class MySqlUpdater extends DomainUpdater {
 
@@ -20,14 +20,16 @@ public class MySqlUpdater extends DomainUpdater {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final InvoiceRepository invoiceRepository;
+    private final SupplierRepository supplierRepository;
 
 
 
-    public MySqlUpdater(BranchRepository branchRepository, ProductRepository productRepository, UserRepository userRepository, InvoiceRepository invoiceRepository) {
+    public MySqlUpdater(BranchRepository branchRepository, ProductRepository productRepository, UserRepository userRepository, InvoiceRepository invoiceRepository, SupplierRepository supplierRepository) {
         this.branchRepository = branchRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.invoiceRepository = invoiceRepository;
+        this.supplierRepository = supplierRepository;
 
 
         listen((BranchCreated event) -> {
@@ -47,6 +49,13 @@ public class MySqlUpdater extends DomainUpdater {
                     event.getLastName(), event.getEmail(), event.getPassword(),
                     event.getRole(), event.getBranchId());
             userRepository.saveAUser(user).subscribe();
+        });
+
+        listen((SupplierAdded event) -> {
+            Supplier supplier = new Supplier(event.getSupplierId(), event.getName(),
+                    event.getNumber(), event.getEmail(), event.getPayment_term(),
+                    event.getBranchId());
+            supplierRepository.saveASupplier(supplier).subscribe();
         });
 
         listen((StockToProductAdded event) -> {

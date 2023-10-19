@@ -10,6 +10,9 @@ import co.diegofer.inventoryclean.model.values.branch.City;
 import co.diegofer.inventoryclean.model.values.branch.Country;
 import co.diegofer.inventoryclean.model.values.common.Name;
 import co.diegofer.inventoryclean.model.values.product.*;
+import co.diegofer.inventoryclean.model.values.supplier.ContactNumber;
+import co.diegofer.inventoryclean.model.values.supplier.PaymentTerm;
+import co.diegofer.inventoryclean.model.values.supplier.SupplierId;
 import co.diegofer.inventoryclean.model.values.user.*;
 
 import java.util.List;
@@ -23,6 +26,7 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
     protected List<ProductEntity> products;
     protected List<UserEntity> users;
     protected List<InvoiceEntity> invoices;
+    protected List<SupplierEntity> suppliers;
 
     public BranchAggregate(BranchId id, Name name, Country country, City city) {
         super(id);
@@ -63,6 +67,10 @@ public class BranchAggregate extends AggregateRoot<BranchId> {
 
     public void changeRoleToUser(UserId userId, Role role){
         appendChange(new RoleToUserChanged(userId.value(), role.value()));
+    }
+
+    public void registerSupplier(SupplierId id, Name name, ContactNumber number, Email email, PaymentTerm payment_term, String branchId){
+        appendChange(new SupplierAdded(branchId, id.value(), name.value(), number.value(), email.value(), payment_term.value()));
     }
 
     public int calculateTotal(List<ProductSale> products){
